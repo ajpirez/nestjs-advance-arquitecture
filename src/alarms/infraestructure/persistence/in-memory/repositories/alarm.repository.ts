@@ -3,7 +3,7 @@ import { Alarm } from '../../../../domain/alarm';
 import { AlarmMapper } from '../mappers/alarm.mappers';
 import { AlarmEntity } from '../entities/alarm.entity';
 import { CreateAlarmRepository } from '../../../../application/ports/create-alarm.repository';
-import { FindAlarmRepository } from '../../../../application/ports/find-alarm.repository';
+import { FindAlarmsRepository } from '../../../../application/ports/find-alarm.repository';
 import { UpsertMaterializedAlarmRepository } from '../../../../application/ports/upsert-materialized-alarm.repository';
 import { AlarmReadModel } from '../../../../domain/read-models/alarm.read-models';
 
@@ -11,7 +11,7 @@ import { AlarmReadModel } from '../../../../domain/read-models/alarm.read-models
 export class InMemoryAlarmRepository
   implements
     CreateAlarmRepository,
-    FindAlarmRepository,
+    FindAlarmsRepository,
     UpsertMaterializedAlarmRepository
 {
 

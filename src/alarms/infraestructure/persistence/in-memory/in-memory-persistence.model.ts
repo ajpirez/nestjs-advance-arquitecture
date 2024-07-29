@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { InMemoryAlarmRepository } from './repositories/alarm.repository';
 import { CreateAlarmRepository } from '../../../application/ports/create-alarm.repository';
-import { FindAlarmRepository } from '../../../application/ports/find-alarm.repository';
+import { FindAlarmsRepository } from '../../../application/ports/find-alarm.repository';
 import { UpsertMaterializedAlarmRepository } from '../../../application/ports/upsert-materialized-alarm.repository';
 
 @Module({
@@ -13,7 +13,7 @@ import { UpsertMaterializedAlarmRepository } from '../../../application/ports/up
       useClass: InMemoryAlarmRepository,
     },
     {
-      provide: FindAlarmRepository,
+      provide: FindAlarmsRepository,
       useClass: InMemoryAlarmRepository,
     },
     {
@@ -23,7 +23,7 @@ import { UpsertMaterializedAlarmRepository } from '../../../application/ports/up
   ],
   exports: [
     CreateAlarmRepository,
-    FindAlarmRepository,
+    FindAlarmsRepository,
     UpsertMaterializedAlarmRepository,
   ],
 })

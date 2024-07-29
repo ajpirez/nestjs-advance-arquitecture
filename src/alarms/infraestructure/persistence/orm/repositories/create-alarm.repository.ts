@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Alarm } from '../../../../domain/alarm';
 import { AlarmMapper } from '../mappers/alarm.mappers';
 import { AlarmEntity } from '../entities/alarm.entity';
-import { CreateAlarmRepository } from "../../../../application/ports/create-alarm.repository";
+import { CreateAlarmRepository } from '../../../../application/ports/create-alarm.repository';
 
 @Injectable()
 export class OrmCreateAlarmRepository implements CreateAlarmRepository {
@@ -12,7 +12,6 @@ export class OrmCreateAlarmRepository implements CreateAlarmRepository {
     @InjectRepository(AlarmEntity)
     private readonly alarmRepository: Repository<AlarmEntity>,
   ) {}
-
 
   async save(alarm: Alarm): Promise<Alarm> {
     const persistenceModel = AlarmMapper.toPersistence(alarm);

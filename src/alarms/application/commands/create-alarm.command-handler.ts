@@ -1,35 +1,30 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
+import { AlarmFactory } from 'src/alarms/domain/factories/alarm.factory';
+import { Alarm } from 'src/alarms/domain/alarm';
 import { CreateAlarmCommand } from './create-alarm-command';
-import { Logger } from '@nestjs/common';
-import { AlarmFactory } from '../../domain/factories/alarm.factory';
-import { AlarmCreatedEvents } from '../../domain/events/alarm-created.events';
 import { CreateAlarmRepository } from '../ports/create-alarm.repository';
 
 @CommandHandler(CreateAlarmCommand)
 export class CreateAlarmCommandHandler
-  implements ICommandHandler<CreateAlarmCommand>
+  implements ICommandHandler<CreateAlarmCommand, Alarm>
 {
-  private readonly logger = new Logger(CreateAlarmCommandHandler.name);
-
   constructor(
     private readonly alarmRepository: CreateAlarmRepository,
     private readonly alarmFactory: AlarmFactory,
-    private readonly eventBus: EventBus,
+    private readonly eventPublisher: EventPublisher,
   ) {}
-
-  async execute(command: CreateAlarmCommand) {
-    this.logger.debug(
-      `Processing "CreateAlarmCommand": ${JSON.stringify(command)}`,
-    );
+  async execute(command: CreateAlarmCommand): Promise<Alarm> {
     const alarm = this.alarmFactory.create(
       command.name,
       command.severity,
       command.triggeredAt,
       command.items,
     );
-    const newAlarm = await this.alarmRepository.save(alarm);
+    // const newAlarm = await this.alarmRepository.save(alarm);
+    // This call the apply() method of the aggragate
+    this.eventPublisher.mergeObjectContext(alarm);
+    alarm.commit();
 
-    this.eventBus.publish(new AlarmCreatedEvents(alarm));
-    return newAlarm;
+    return alarm;
   }
 }

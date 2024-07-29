@@ -4,7 +4,7 @@ import { AlarmEntity } from './entities/alarm.entity';
 import { OrmCreateAlarmRepository } from './repositories/create-alarm.repository';
 import { AlarmItemEntity } from './entities/alarm-item.entity';
 import { CreateAlarmRepository } from '../../../application/ports/create-alarm.repository';
-import { FindAlarmRepository } from '../../../application/ports/find-alarm.repository';
+import { FindAlarmsRepository } from '../../../application/ports/find-alarm.repository';
 import { OrmFindAlarmRepository } from './repositories/find-alarm.repository';
 import { UpsertMaterializedAlarmRepository } from '../../../application/ports/upsert-materialized-alarm.repository';
 import { OrmUpsertMaterializedAlarmRepository } from './repositories/upsert-materialized-alarm.repository';
@@ -30,7 +30,7 @@ import {
       useClass: OrmCreateAlarmRepository,
     },
     {
-      provide: FindAlarmRepository,
+      provide: FindAlarmsRepository,
       useClass: OrmFindAlarmRepository,
     },
     {
@@ -40,7 +40,7 @@ import {
   ],
   exports: [
     CreateAlarmRepository,
-    FindAlarmRepository,
+    FindAlarmsRepository,
     UpsertMaterializedAlarmRepository,
   ],
 })
